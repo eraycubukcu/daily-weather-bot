@@ -2,9 +2,11 @@ import tweepy
 import requests
 import os
 import sys
+import time
 from dotenv import load_dotenv
 from datetime import datetime
 
+# --- AYARLAR ---
 load_dotenv()
 
 api_key = os.getenv("API_KEY")
@@ -14,13 +16,22 @@ access_secret = os.getenv("ACCESS_SECRET")
 weather_api_key = os.getenv("WEATHER_API_KEY")
 
 if not weather_api_key:
-    print("❌ HATA: .env dosyasında WEATHER_API_KEY bulunamadı!")
+    print("❌ HATA: API Key bulunamadı!")
     sys.exit()
 
-SEHIRLER = ["Istanbul", "Ankara", "Izmir", "Samsun", "Bursa", "Antalya","Sakarya","Trabzon","Muğla"]
+# BÖLGELER VE ŞEHİRLER SÖZLÜĞÜ
+# Her bölgeye 4-5 önemli şehir koyduk ki 280 karakteri aşmasın.
+BOLGELER = {
+    "Marmara": ["Istanbul", "Bursa", "Edirne", "Kocaeli", "Canakkale"],
+    "Ege": ["Izmir", "Mugla", "Aydin", "Denizli", "Manisa"],
+    "Akdeniz": ["Antalya", "Adana", "Mersin", "Hatay", "Isparta"],
+    "İç Anadolu": ["Ankara", "Konya", "Eskisehir", "Kayseri", "Sivas"],
+    "Karadeniz": ["Samsun", "Trabzon", "Rize", "Zonguldak", "Ordu"],
+    "Doğu Anadolu": ["Erzurum", "Van", "Malatya", "Elazig", "Kars"],
+    "G.Doğu Anadolu": ["Gaziantep", "Sanliurfa", "Diyarbakir", "Mardin", "Batman"]
+}
 
 def hava_durumu_getir(sehir):
-    """OpenWeatherMap'ten detaylı veri çeker"""
     url = "http://api.openweathermap.org/data/2.5/weather"
     params = {
         'q': sehir,
@@ -28,29 +39,16 @@ def hava_durumu_getir(sehir):
         'units': 'metric',
         'lang': 'tr'
     }
-    
     try:
         response = requests.get(url, params=params)
-        
-        if response.status_code == 401:
-            print("⚠️ UYARI: Weather API Key henüz aktif değil veya hatalı.")
-            print("   -> Yeni aldıysan 10-15 dk beklemen gerekebilir.")
-            return None
-            
         if response.status_code == 200:
             return response.json()
         else:
-            print(f"⚠️ {sehir} için veri alınamadı. Kod: {response.status_code}")
             return None
-    except Exception as e:
-        print(f"❌ Bağlantı hatası: {e}")
+    except:
         return None
 
 def tweet_at(icerik):
-    """Hazırlanan metni Twitter'a gönderir"""
-    if not icerik:
-        return
-
     try:
         client = tweepy.Client(
             consumer_key=api_key,
@@ -58,54 +56,49 @@ def tweet_at(icerik):
             access_token=access_token,
             access_token_secret=access_secret
         )
-        
-        response = client.create_tweet(text=icerik)
-        print(f"\n✅ BAŞARILI! Tweet gönderildi. ID: {response.data['id']}")
-        print("-" * 30)
-        print(icerik)
-        print("-" * 30)
-        
+        client.create_tweet(text=icerik)
+        print("✅ Tweet başarıyla gönderildi!")
     except Exception as e:
-        print(f"\n❌ TWITTER HATASI: {e}")
-        if "403" in str(e):
-            print("👉 İpucu: Developer Portal'da 'App Permissions' kısmını 'Read and Write' yaptın mı?")
+        print(f"❌ Tweet atılamadı: {e}")
 
 def botu_calistir():
-    print("📡 Hava durumu verileri toplanıyor...")
-    
+    print("📡 Bölgesel rapor sistemi başlatılıyor...")
     bugun = datetime.now().strftime("%d.%m.%Y")
-    
-    # Tweet Başlığı
-    tweet_metni = f"📅 {bugun} - Günlük Hava Durumu 🇹🇷\n\n"
-    basarili_sehir_sayisi = 0
-    
-    for sehir in SEHIRLER:
-        veri = hava_durumu_getir(sehir)
-        if veri:
-            # Verileri ayrıştır
-            sicaklik = round(veri['main']['temp'])
-            hissedilen = round(veri['main']['feels_like'])
-            durum = veri['weather'][0]['description'].title()
-            
-            satir = f"📍 {sehir}: {sicaklik}°C (His:{hissedilen}) {durum}\n"
-            tweet_metni += satir
-            basarili_sehir_sayisi += 1
-    
-    if basarili_sehir_sayisi == 0:
-        print("❌ Hiçbir şehir için veri alınamadı, tweet atılmıyor.")
-        return
 
-    # tweet_metni += "\n#HavaDurumu #Yazılım #Bot"
-    
-    uzunluk = len(tweet_metni)
-    print(f"📝 Tweet Uzunluğu: {uzunluk}/280")
-    
-    if uzunluk <= 280:
-        print("🚀 Tweet gönderiliyor...")
-        tweet_at(tweet_metni)
-    else:
-        print("⚠️ HATA: Tweet 280 karakteri aştı! Şehir sayısını azaltmalısın.")
+    # Sözlükteki her bölge için döngü başlat
+    for bolge_adi, sehirler_listesi in BOLGELER.items():
+        
+        print(f"\n--- {bolge_adi} Bölgesi Hazırlanıyor ---")
+        tweet_metni = f"📅 {bugun} - {bolge_adi} Bölgesi 🇹🇷\n\n"
+        
+        veri_var_mi = False
+        
+        for sehir in sehirler_listesi:
+            veri = hava_durumu_getir(sehir)
+            if veri:
+                sicaklik = round(veri['main']['temp'])
+                durum = veri['weather'][0]['description'].title()
+                # Şehir ismini Türkçe karakter düzeltmesi ile yazdırabiliriz ama şimdilik basit tutalım
+                # Gelen verideki şehir adını (name) kullanmak daha şık olabilir
+                sehir_adi = veri['name'] 
+                
+                tweet_metni += f"📍 {sehir_adi}: {sicaklik}°C, {durum}\n"
+                veri_var_mi = True
+        
+        tweet_metni += "\n#HavaDurumu #Türkiye"
+        
+        if veri_var_mi:
+            # Karakter kontrolü
+            if len(tweet_metni) <= 280:
+                tweet_at(tweet_metni)
+            else:
+                print(f"⚠️ {bolge_adi} tweeti çok uzun, atılamadı!")
+            
+            # ⏳ ÖNEMLİ: Her tweet arası 30 saniye bekle (Spam koruması)
+            print("⏳ Diğer bölge için 30 saniye bekleniyor...")
+            time.sleep(30)
+        else:
+            print(f"❌ {bolge_adi} için veri alınamadı.")
 
 if __name__ == "__main__":
-
     botu_calistir()
