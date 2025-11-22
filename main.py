@@ -17,7 +17,7 @@ if not weather_api_key:
     print("❌ HATA: .env dosyasında WEATHER_API_KEY bulunamadı!")
     sys.exit()
 
-SEHIRLER = ["Istanbul", "Ankara", "Izmir", "Samsun", "Bursa", "Antalya"]
+SEHIRLER = ["Istanbul", "Ankara", "Izmir", "Samsun", "Bursa", "Antalya","Sakarya","Trabzon","Muğla"]
 
 def hava_durumu_getir(sehir):
     """OpenWeatherMap'ten detaylı veri çeker"""
@@ -107,4 +107,5 @@ def botu_calistir():
         print("⚠️ HATA: Tweet 280 karakteri aştı! Şehir sayısını azaltmalısın.")
 
 if __name__ == "__main__":
+
     botu_calistir()
