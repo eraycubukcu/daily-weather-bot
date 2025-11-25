@@ -41,7 +41,7 @@ Projeyi kendi bilgisayarınızda çalıştırmak veya geliştirmek isterseniz:
 
 1.  **Projeyi Klonlayın:**
     ```bash
-    git clone [https://github.com/eraycubukcu/daily-weather-bot.git](https://github.com/eraycubukcu/daily-weather-bot.git)
+    git clone https://github.com/eraycubukcu/daily-weather-bot.git
     cd daily-weather-bot
     ```
 
