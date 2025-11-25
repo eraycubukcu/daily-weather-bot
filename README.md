@@ -5,7 +5,6 @@
 [![Python 3.10](https://img.shields.io/badge/Python-3.10-blue?style=flat&logo=python&logoColor=white)](https://www.python.org/)
 [![Twitter API](https://img.shields.io/badge/Twitter_API-v2-1DA1F2?style=flat&logo=twitter&logoColor=white)](https://developer.twitter.com/)
 [![GitHub Actions](https://img.shields.io/badge/Infrastructure-GitHub_Actions-2088FF?style=flat&logo=github-actions&logoColor=white)](https://github.com/features/actions)
-[![License](https://img.shields.io/badge/License-MIT-green?style=flat)](https://opensource.org/licenses/MIT)
 
 > 🔗 **Canlı Bot Hesabı:** [https://x.com/HavaRaporcusu](https://x.com/HavaRaporcusu)
 
@@ -20,8 +19,6 @@ Herhangi bir fiziksel sunucuya ihtiyaç duymadan, **GitHub Actions** üzerinde p
 ### ✨ Temel Özellikler
 * ⏰ **Tam Otomatik:** Her sabah **08:00 (TSİ)** saatinde sistem uyanır.
 * 🌍 **Bölgesel Kapsam:** Türkiye'nin 7 bölgesi için (Marmara, Ege, İç Anadolu vb.) ayrı ayrı raporlar oluşturur.
-* 🚀 **API Optimizasyonu:** Rate limit (kota) sınırlarına takılmamak için gönderiler arası akıllı bekleme süreleri (30sn) kullanır.
-* 🛡️ **Güvenlik:** API anahtarları kod içerisinde değil, şifreli **GitHub Secrets** kasasında saklanır.
 
 ---
 
@@ -35,20 +32,6 @@ Proje aşağıdaki teknoloji yığınını kullanmaktadır:
 | **GitHub Actions** | Cron Job yönetimi ve CI/CD süreçleri (Serverless çalışma). |
 | **Tweepy** | Twitter API v2 ile OAuth kimlik doğrulama ve tweet gönderimi. |
 | **OpenWeatherMap** | Anlık sıcaklık, hissedilen sıcaklık ve hava durumu açıklaması verileri. |
-
----
-
-## 📍 Kapsanan Bölgeler
-
-Bot, tek bir tweet yerine her bölgeyi detaylı analiz etmek için **7 aşamalı** bir döngüde çalışır:
-
-1.  🟦 **Marmara Bölgesi:** (İstanbul, Bursa, Edirne...)
-2.  🟪 **Ege Bölgesi:** (İzmir, Muğla, Aydın...)
-3.  🟧 **Akdeniz Bölgesi:** (Antalya, Adana, Mersin...)
-4.  🟨 **İç Anadolu Bölgesi:** (Ankara, Konya, Eskişehir...)
-5.  🟩 **Karadeniz Bölgesi:** (Samsun, Trabzon, Rize...)
-6.  🟫 **Doğu Anadolu:** (Erzurum, Van, Malatya...)
-7.  🟥 **Güneydoğu Anadolu:** (Gaziantep, Diyarbakır...)
 
 ---
 
@@ -99,12 +82,5 @@ Botun paylaştığı içerik formatı aşağıdaki gibidir:
 
 ---
 
-## 👨‍💻 Geliştirici
-
-**Eray Çubukçu** - Yazılım Mühendisliği Öğrencisi
-
-* LinkedIn: [Profilim](https://linkedin.com/in/eraycubukcu) *(Buraya kendi linkini ekleyebilirsin)*
-* GitHub: [@eraycubukcu](https://github.com/eraycubukcu)
-
----
-*Bu proje açık kaynaklıdır (MIT License) ve eğitim amacıyla geliştirilmiştir.*
+* LinkedIn: [Profilim](https://linkedin.com/in/eraycubukcu)
+* Twitter: [@HavaRaporcusu](https://x.com/HavaRaporcusu)
