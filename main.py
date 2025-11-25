@@ -6,7 +6,6 @@ import time
 from dotenv import load_dotenv
 from datetime import datetime
 
-# --- AYARLAR ---
 load_dotenv()
 
 api_key = os.getenv("API_KEY")
@@ -19,8 +18,6 @@ if not weather_api_key:
     print("❌ HATA: API Key bulunamadı!")
     sys.exit()
 
-# BÖLGELER VE ŞEHİRLER SÖZLÜĞÜ
-# Her bölgeye 4-5 önemli şehir koyduk ki 280 karakteri aşmasın.
 BOLGELER = {
     "Marmara": ["Istanbul", "Bursa", "Edirne", "Kocaeli", "Canakkale"],
     "Ege": ["Izmir", "Mugla", "Aydin", "Denizli", "Manisa"],
@@ -65,7 +62,6 @@ def botu_calistir():
     print("📡 Bölgesel rapor sistemi başlatılıyor...")
     bugun = datetime.now().strftime("%d.%m.%Y")
 
-    # Sözlükteki her bölge için döngü başlat
     for bolge_adi, sehirler_listesi in BOLGELER.items():
         
         print(f"\n--- {bolge_adi} Bölgesi Hazırlanıyor ---")
@@ -78,8 +74,6 @@ def botu_calistir():
             if veri:
                 sicaklik = round(veri['main']['temp'])
                 durum = veri['weather'][0]['description'].title()
-                # Şehir ismini Türkçe karakter düzeltmesi ile yazdırabiliriz ama şimdilik basit tutalım
-                # Gelen verideki şehir adını (name) kullanmak daha şık olabilir
                 sehir_adi = veri['name'] 
                 
                 tweet_metni += f"📍 {sehir_adi}: {sicaklik}°C, {durum}\n"
@@ -88,13 +82,11 @@ def botu_calistir():
         tweet_metni += "\n#HavaDurumu #Türkiye"
         
         if veri_var_mi:
-            # Karakter kontrolü
             if len(tweet_metni) <= 280:
                 tweet_at(tweet_metni)
             else:
                 print(f"⚠️ {bolge_adi} tweeti çok uzun, atılamadı!")
             
-            # ⏳ ÖNEMLİ: Her tweet arası 30 saniye bekle (Spam koruması)
             print("⏳ Diğer bölge için 30 saniye bekleniyor...")
             time.sleep(30)
         else:
@@ -102,3 +94,4 @@ def botu_calistir():
 
 if __name__ == "__main__":
     botu_calistir()
+
