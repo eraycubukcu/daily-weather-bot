@@ -83,4 +83,3 @@ Botun paylaştığı içerik formatı aşağıdaki gibidir:
 ---
 
 * LinkedIn: [Profilim](https://linkedin.com/in/eraycubukcu)
-* Twitter: [@HavaRaporcusu](https://x.com/HavaRaporcusu)
