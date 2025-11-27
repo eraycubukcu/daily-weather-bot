@@ -17,7 +17,7 @@ Bu proje, Türkiye'nin **7 coğrafi bölgesi** için günlük hava durumu verile
 Herhangi bir fiziksel sunucuya ihtiyaç duymadan, **GitHub Actions** üzerinde planlanmış görevler (Cron Jobs) mantığıyla çalışır.
 
 ### ✨ Temel Özellikler
-* ⏰ **Tam Otomatik:** Her sabah **08:00 (TSİ)** saatinde sistem uyanır.
+* ⏰ **Tam Otomatik:** Her sabah **13:00** saatinde sistem uyanır.
 * 🌍 **Bölgesel Kapsam:** Türkiye'nin 7 bölgesi için (Marmara, Ege, İç Anadolu vb.) ayrı ayrı raporlar oluşturur.
 
 ---
