@@ -22,7 +22,7 @@ BOLGELER = {
     "Marmara": ["Istanbul", "Bursa", "Edirne", "Kocaeli", "Canakkale"],
     "Ege": ["Izmir", "Mugla", "Aydin", "Denizli", "Manisa"],
     "Akdeniz": ["Antalya", "Adana", "Mersin", "Hatay", "Isparta"],
-    "İç Anadolu": ["Ankara", "Konya", "Eskisehir", "Kayseri", "Sivas"],
+    "İç Anadolu": ["Ankara", "Konya", "Eskisehir", "Kirsehir", "Sivas"],
     "Karadeniz": ["Samsun", "Trabzon", "Rize", "Zonguldak", "Ordu"],
     "Doğu Anadolu": ["Erzurum", "Van", "Malatya", "Elazig", "Kars"],
     "G.Doğu Anadolu": ["Gaziantep", "Sanliurfa", "Diyarbakir", "Mardin", "Batman"]
@@ -94,4 +94,5 @@ def botu_calistir():
 
 if __name__ == "__main__":
     botu_calistir()
+
 
