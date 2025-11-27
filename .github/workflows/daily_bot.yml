@@ -3,8 +3,8 @@ name: Gunluk Hava Durumu Botu
 on:
   schedule:
     # UTC saatiyle çalışır. Türkiye UTC+3 olduğu için:
-    # Sabah 08:00 olması için buraya 05:00 yazıyoruz.
-    - cron: '0 5 * * *'
+    # Sabah 08:00 olması için buraya 10:00 yazıyoruz.
+    - cron: '0 10 * * *'
   
   # Manuel tetiklemek için (Test etmek istersen butona basıp çalıştırabilirsin)
   workflow_dispatch:
